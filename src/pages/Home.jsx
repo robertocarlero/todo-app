@@ -1,8 +1,7 @@
-import { authContext } from "../api/AuthContextProvider"
-import { useContext } from "react"
+import { useAuthState } from '../hooks/useAuthState';
 
 export default function Home() {
-    const {state, login} = useContext(authContext)
+    const { state, login } = useAuthState();
 
     return(
         <>

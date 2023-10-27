@@ -1,12 +1,30 @@
 import Layout from "../components/AuthLayout";
 import { TextField, Button } from '@mui/material';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 
 export default function SignIn() {
     const [formValue, setFormValue] = useState({email: "", password: ""});
 
-    function handleClick(event) {
-        console.log(formValue);
+
+    useEffect(() => { 
+        const auth = getAuth();
+        
+        onAuthStateChanged(auth, (user) => {
+            console.log("cambio de estado", user);
+        });
+    }, [])
+
+    async function  handleClick(event) {
+        const auth = getAuth();
+        const { email, password } = formValue;
+        
+        const res = await signInWithEmailAndPassword(auth, email, password);
+
+        console.log(res);
+
+        
+            
     }
 
     function onChange(event) {
@@ -16,6 +34,7 @@ export default function SignIn() {
         }
         setFormValue(newFormValue);
     }
+
     return (
         <Layout title="Iniciar sesión">
             <form className="flex flex-col gap-4 min-w-[500px]">
